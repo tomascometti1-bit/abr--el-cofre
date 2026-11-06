@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#130c07">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%97%9D%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Abrí el cofre">
+<meta property="og:description" content="Un juego para mirar de cerca el cofre que catorce mujeres santafesinas donaron a los estudiantes de Derecho en 1914. Museo Histórico UNL.">
+<meta property="og:image" content="https://tomascometti1-bit.github.io/abr--el-cofre/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://tomascometti1-bit.github.io/abr--el-cofre/">
+<link rel="canonical" href="https://tomascometti1-bit.github.io/abr--el-cofre/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="img/v_34.jpg">
+<title>Abrí el cofre</title>
+<meta name="description" content="Experiencia interactiva del Museo Histórico UNL: el cofre de 1914 y la creación de la Universidad Nacional del Litoral.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Literata:ital,opsz,wght@0,7..72,300..800;1,7..72,300..800&display=swap">
+<style>
+/* Vitrina en penumbra: una sola columna, como un recorrido de sala; la madera oscura es el fondo,
+   el bronce es la luz y el celeste aparece solo cuando se abre el cofre (la patria). */
+:root{
+  --oak-950:#130c07; --oak-900:#1b120c; --oak-800:#24180f; --oak-700:#312116; --line:#4a3524;
+  --paper:#f1e6d2; --paper-dim:#cbb99b; --paper-mute:#a08e73;
+  --bronze:#c9a04f; --bronze-hi:#e9cc8a; --bronze-lo:#8b6a2f;
+  --celeste:#74acdf; --white-flag:#f7f5ef; --ok:#a3cf8d; --retry:#eaa585;
+  --f-display:"Bodoni Moda","Bodoni 72","Didot","Bodoni MT",Georgia,serif;
+  --f-text:"Literata",Georgia,"Times New Roman",serif;
+  --step--1:0.875rem; --step-0:1.0625rem; --step-1:1.3rem; --step-2:1.7rem; --step-3:2.3rem; --step-4:clamp(2.8rem,11vw,4.6rem);
+  --radius:6px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+section,.reto{scroll-margin-top:64px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--oak-900);color:var(--paper);font-family:var(--f-text);font-size:var(--step-0);line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--oak-950)}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;line-height:1.08;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--bronze-hi);text-underline-offset:3px}
+a:hover{color:var(--paper)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--bronze-hi);outline-offset:3px;border-radius:4px}
+.eyebrow{font-family:var(--f-text);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:600}
+.muted{color:var(--paper-dim)}
+.small{font-size:var(--step--1)}
+.btn{display:inline-flex;align-items:center;gap:.6em;border:1px solid var(--bronze);background:var(--bronze);color:var(--oak-950);padding:.8em 1.3em;border-radius:999px;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s,transform .2s}
+.btn:hover{background:var(--bronze-hi);color:var(--oak-950)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{background:transparent;color:var(--paper-mute);border-color:var(--line);cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--bronze-hi)}
+.btn-ghost:hover{background:var(--oak-700);color:var(--paper)}
+.btn-sm{padding:.45em .95em;font-size:var(--step--1);font-weight:600}
+
+/* barra de llaves */
+.keybar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(19,12,7,.94);background:color-mix(in srgb,var(--oak-950) 92%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.keybar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.keybar .label{font-size:var(--step--1);color:var(--paper-dim);font-variant-numeric:tabular-nums}
+.keybar .label b{color:var(--paper);font-weight:700}
+.keys{display:flex;gap:6px}
+.key{width:26px;height:26px;color:var(--line);transition:color .4s,transform .4s}
+.key.on{color:var(--bronze-hi);transform:rotate(-12deg)}
+
+/* portada */
+.hero{position:relative;overflow:hidden;background:var(--oak-950)}
+.hero-img{position:absolute;inset:0;background-size:cover;background-position:center 30%;opacity:.66}
+.hero-img::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 25%,transparent 0%,rgba(19,12,7,.55) 55%,var(--oak-950) 100%),linear-gradient(to bottom,transparent 40%,var(--oak-950) 100%)}
+.hero .wrap{position:relative;padding-block:clamp(56px,14vw,120px) 40px;display:grid;gap:18px}
+.hero h1{font-size:var(--step-4);font-style:italic;font-weight:600;letter-spacing:-.01em;color:var(--paper)}
+.hero h1 span{display:block;font-style:normal;font-weight:400;font-size:.36em;letter-spacing:.32em;text-transform:uppercase;color:var(--bronze);margin-bottom:.5em}
+.hero .lead{font-size:var(--step-1);line-height:1.5;max-width:34em;color:var(--paper)}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+
+/* secciones */
+section{padding-block:56px}
+.sec-head{display:grid;gap:10px;margin-bottom:28px}
+.sec-head h2{font-size:var(--step-3)}
+.sec-head p{max-width:36em;color:var(--paper-dim)}
+.rule{height:1px;background:linear-gradient(to right,transparent,var(--line),transparent);border:0;margin:0}
+
+/* retos */
+.retos{display:grid;gap:18px}
+.reto{background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:14px}
+.reto.done{border-color:var(--bronze-lo)}
+.reto-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.reto-num{display:flex;align-items:center;gap:8px}
+.reto-num svg{width:22px;height:22px;color:var(--line)}
+.reto.done .reto-num svg{color:var(--bronze-hi)}
+.reto h3{font-size:var(--step-2);font-weight:500}
+.opts{display:grid;gap:8px;grid-template-columns:1fr}
+@media (min-width:560px){.opts{grid-template-columns:1fr 1fr}}
+.opt{text-align:left;background:var(--oak-900);border:1px solid var(--line);border-radius:var(--radius);padding:.75em 1em;cursor:pointer;line-height:1.35;transition:border-color .2s,background .2s}
+.opt:hover{border-color:var(--bronze)}
+.opt.is-wrong{border-color:var(--retry);color:var(--retry);animation:shake .35s}
+.opt.is-right{border-color:var(--ok);background:#26291b;background:color-mix(in srgb,var(--ok) 12%,var(--oak-900));color:var(--paper)}
+.opt[disabled]{cursor:default}
+.opt[disabled]:not(.is-right){opacity:.45}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{min-height:1.2em;font-size:var(--step--1);color:var(--retry)}
+.helper{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.photo{margin:0;display:grid;gap:6px}
+.photo img{width:100%;height:auto;display:block;border-radius:4px;border:1px solid var(--line)}
+.photo figcaption{font-size:var(--step--1);color:var(--paper-mute)}
+.relato{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px}
+.relato p{max-width:36em}
+.relato .extra{color:var(--paper-dim);font-size:var(--step--1)}
+
+/* abrir */
+.open-zone{display:grid;justify-items:center;text-align:center;gap:20px}
+.cofre-svg{width:min(100%,380px);height:auto;overflow:visible}
+#lid{transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.4s cubic-bezier(.2,.8,.2,1),opacity 1.4s}
+#flag{transition:transform 1.6s cubic-bezier(.2,.8,.2,1) .5s,opacity .8s .5s;opacity:0;transform:translateY(60px)}
+#glow{transition:opacity 1.6s .3s;opacity:0}
+.is-open #lid{transform:translate(-92px,-36px) rotate(-20deg);opacity:.92}
+.is-open #flag{opacity:1;transform:translateY(8px)}
+.is-open #glow{opacity:1}
+.is-open #flagwave{animation:wave 3.2s ease-in-out 2.1s infinite}
+@keyframes wave{0%,100%{transform:skewY(0)}50%{transform:skewY(-2.5deg)}}
+#flagwave{transform-box:fill-box;transform-origin:0 50%}
+.lock-note{color:var(--paper-dim);font-variant-numeric:tabular-nums}
+.reveal{display:grid;gap:12px;max-width:34em;text-align:left;background:var(--oak-800);border:1px solid var(--bronze-lo);border-radius:var(--radius);padding:20px}
+.reveal h3{font-size:var(--step-2);font-style:italic}
+
+/* historia */
+.timeline{position:relative;display:grid;gap:34px;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.t-item{position:relative;display:grid;gap:10px}
+.t-item::before{content:"";position:absolute;left:-26px;top:.55em;width:11px;height:11px;border-radius:50%;background:var(--oak-900);border:2px solid var(--bronze)}
+.t-year{font-family:var(--f-display);font-size:var(--step-3);font-weight:600;color:var(--bronze-hi);line-height:1;font-variant-numeric:lining-nums}
+.t-title{font-family:var(--f-display);font-size:var(--step-1);font-style:italic}
+.t-body{display:grid;gap:12px}
+.t-body p{max-width:36em}
+.t-link{font-size:var(--step--1)}
+.timeline.is-locked .t-body{display:none}
+.timeline.is-locked .t-item::before{border-color:var(--line)}
+.locked-msg{margin-top:-8px;margin-bottom:24px;padding:14px 16px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--paper-dim)}
+.quote{margin:8px 0 0;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.quote img{width:96px;height:96px;object-fit:cover;border-radius:50%;border:1px solid var(--line);background:#fff}
+.quote blockquote{margin:0;font-family:var(--f-display);font-style:italic;font-size:var(--step-1);line-height:1.35}
+.quote cite{display:block;margin-top:8px;font-style:normal;font-family:var(--f-text);font-size:var(--step--1);color:var(--paper-dim)}
+@media (max-width:420px){.quote{grid-template-columns:1fr}.quote img{width:80px;height:80px}}
+
+/* muro */
+.form{display:grid;gap:12px;background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.form label{display:grid;gap:6px;font-size:var(--step--1);color:var(--paper-dim)}
+.form textarea,.form input,.form select{font:inherit;color:var(--paper);background:var(--oak-900);border:1px solid var(--line);border-radius:4px;padding:.65em .8em;width:100%}
+.form textarea{min-height:96px;resize:vertical}
+.form-row{display:grid;gap:12px;grid-template-columns:1fr}
+@media (min-width:560px){.form-row{grid-template-columns:1fr 1fr}}
+.count{justify-self:end;font-size:var(--step--1);color:var(--paper-mute);font-variant-numeric:tabular-nums}
+.wall{display:grid;gap:14px;margin-top:22px;grid-template-columns:1fr}
+@media (min-width:560px){.wall{grid-template-columns:1fr 1fr}}
+.flagcard{background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:grid}
+.flagcard .stripe{height:14px;background:linear-gradient(to bottom,var(--celeste) 0 33.3%,var(--white-flag) 33.3% 66.6%,var(--celeste) 66.6%)}
+.flagcard .in{padding:14px 16px;display:grid;gap:8px}
+.flagcard .txt{font-family:var(--f-display);font-style:italic;font-size:var(--step-1);line-height:1.3;overflow-wrap:anywhere}
+.flagcard .who{font-size:var(--step--1);color:var(--paper-dim)}
+.flagcard.first{grid-column:1/-1;border-color:var(--bronze-lo)}
+.flagcard.first .stripe{background:linear-gradient(to right,var(--bronze-lo),var(--bronze-hi),var(--bronze-lo))}
+.flagcard.first .txt{font-style:normal;letter-spacing:.06em;text-transform:uppercase;font-size:var(--step-0);font-family:var(--f-text);font-weight:600;color:var(--bronze-hi)}
+
+/* pie */
+footer{background:var(--oak-950);border-top:1px solid var(--line);padding-block:40px 56px}
+footer .wrap{display:grid;gap:22px}
+.ficha{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:var(--step--1)}
+.ficha dt{color:var(--bronze);font-weight:600}
+.ficha dd{margin:0;color:var(--paper-dim)}
+.credits{font-size:var(--step--1);color:var(--paper-mute);display:grid;gap:8px}
+.tools{display:flex;flex-wrap:wrap;gap:10px}
+/* modos: sala del museo, a distancia, aula con proyector */
+body:not(.mode-sala) .only-sala{display:none!important}
+body.mode-sala .only-remote{display:none!important}
+body:not(.mode-aula) .only-aula{display:none!important}
+.hero-grid{display:grid;gap:18px;min-width:0}
+.aula-qr{display:grid;justify-items:center;gap:8px;background:var(--paper);color:var(--oak-950);border-radius:var(--radius);padding:14px;text-align:center;max-width:100%;justify-self:start}
+.aula-qr svg{width:190px;height:190px;display:block}
+.aula-qr p{font-size:var(--step--1);font-weight:700}
+.aula-qr .aula-url{font-weight:600;font-size:.8rem;margin-top:-4px;word-break:break-all;color:var(--oak-700)}
+.aula-url:empty{display:none}
+/* visor */
+.visor{display:grid;gap:12px}
+.visor-main{position:relative;margin:0;background:var(--oak-950);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.visor-main img{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain;background:var(--oak-950);cursor:zoom-in}
+.visor-main figcaption{padding:10px 12px;font-size:var(--step--1);color:var(--paper-mute);border-top:1px solid var(--line)}
+.visor-zoom{position:absolute;right:10px;top:10px}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.thumb{display:grid;gap:4px;background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);padding:6px;cursor:pointer;font-size:var(--step--1);color:var(--paper-dim);text-align:center;min-width:0}
+.thumb img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;display:block}
+.thumb[aria-selected="true"]{border-color:var(--bronze);color:var(--paper)}
+.partes{margin:0;padding-left:1.5em;font-size:var(--step--1);color:var(--paper-dim);columns:2;column-gap:28px}
+.partes li{margin-bottom:4px;break-inside:avoid}
+@media (max-width:520px){.partes{columns:1}}
+.photo img{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:50;background:rgba(10,6,4,.97);display:grid;grid-template-rows:auto 1fr}
+.zoom-bar{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.zoom-bar{flex-wrap:wrap}
+.zoom-bar span{order:2;flex:1 1 100%;font-size:var(--step--1);color:var(--paper-dim);min-width:0}
+.zoom-bar .grp{order:1;display:flex;gap:6px;flex:none;margin-left:auto}
+.zoom-stage{overflow:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,0px)}
+.zoom-stage img{display:block;width:100%;max-width:none;height:auto;margin:0 auto}
+/* aula con proyector */
+.stepper{display:none}
+body.mode-aula{font-size:21px}
+.mode-aula .wrap{max-width:1180px}
+.mode-aula .hero .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:end;column-gap:40px}
+.mode-aula .reto{display:none}
+.mode-aula .reto.current{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:28px;align-items:start}
+.mode-aula .reto.current > *{grid-column:2}
+.mode-aula .reto.current > .photo{grid-column:1;grid-row:1 / span 7}
+.mode-aula .reto h3{font-size:2.1rem}
+.mode-aula .opts{grid-template-columns:1fr}
+.mode-aula .opt{font-size:1.1rem;padding:.85em 1.1em}
+.mode-aula .stepper{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+.stepper .pos{font-variant-numeric:tabular-nums;color:var(--paper-dim)}
+@media (max-width:900px){.mode-aula .hero .wrap{grid-template-columns:1fr}.mode-aula .reto.current{grid-template-columns:1fr}.mode-aula .reto.current > *,.mode-aula .reto.current > .photo{grid-column:1;grid-row:auto}}
+.modes{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:var(--step--1);color:var(--paper-dim)}
+.modes a{padding:.35em .8em;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--paper-dim)}
+.modes a[aria-current="true"]{border-color:var(--bronze);color:var(--paper)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.7 12H21m-3 0v3.2M15 12v2.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="keybar">
+  <div class="wrap">
+    <span class="label">Llaves <b id="keycount">0</b> de 6</span>
+    <div class="keys" id="keys" aria-hidden="true"></div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-img" id="heroimg" role="img" aria-label="El cofre de roble tallado, en la sala del Museo Histórico UNL"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <p class="eyebrow">Museo Histórico UNL · Colección Movimiento Estudiantil</p>
+      <h1><span>Santa Fe, 1914</span>Abrí el cofre</h1>
+      <p class="lead"><span class="only-sala">Catorce mujeres de Santa Fe regalaron una bandera a los estudiantes de Derecho y la guardaron en este cofre. Mirá la pieza de cerca, conseguí las seis llaves y abrilo: adentro empieza la historia de la Universidad Nacional del Litoral.</span><span class="only-remote">En 1914, catorce mujeres de Santa Fe regalaron una bandera a los estudiantes de Derecho y la guardaron en un cofre que hoy está en el Museo Histórico UNL. Recorrelo con las fotos, conseguí las seis llaves y abrilo: adentro empieza la historia de la Universidad Nacional del Litoral.</span></p>
+      <div class="meta">
+        <button class="btn" type="button" id="startbtn">Empezar</button>
+        <span class="muted small only-sala">Dura unos 10 minutos. Cada respuesta está en la pieza que tenés enfrente.</span>
+        <span class="muted small only-remote">Dura unos 10 minutos. Las respuestas están en las fotos: tocá «Ampliar» para ver los detalles.</span>
+      </div>
+    </div>
+    <div class="aula-qr only-aula"><svg viewBox="0 0 37 37" class="segno"><path class="qrline" stroke="#130c07" d="M2 2.5h7m1 0h3m1 0h1m3 0h1m1 0h2m1 0h1m1 0h1m2 0h7m-33 1h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m3 0h1m1 0h2m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h2m1 0h3m3 0h2m3 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m5 0h1m2 0h1m3 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h1m1 0h1m5 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m4 0h1m1 0h1m1 0h2m1 0h1m2 0h2m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m1 0h1m2 0h6m2 0h3m-25 1h1m1 0h2m1 0h3m1 0h3m2 0h2m1 0h2m1 0h2m1 0h2m1 0h1m2 0h1m1 0h2m-32 1h1m2 0h2m1 0h2m3 0h3m1 0h4m3 0h1m2 0h2m1 0h2m1 0h1m-33 1h2m4 0h2m1 0h2m2 0h1m2 0h1m1 0h1m2 0h4m1 0h4m1 0h2m-32 1h1m2 0h1m3 0h1m2 0h2m3 0h2m1 0h1m5 0h3m1 0h1m1 0h2m-33 1h3m2 0h3m2 0h3m1 0h1m1 0h1m2 0h1m2 0h1m1 0h1m3 0h2m1 0h2m-30 1h3m1 0h1m3 0h1m1 0h2m2 0h1m2 0h2m5 0h1m1 0h3m-28 1h1m1 0h1m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m1 0h1m4 0h1m2 0h1m-30 1h3m1 0h2m1 0h4m1 0h1m2 0h1m2 0h1m2 0h2m2 0h3m1 0h2m-31 1h1m2 0h1m2 0h5m1 0h2m4 0h1m1 0h3m2 0h2m1 0h3m-29 1h2m1 0h1m1 0h1m3 0h1m2 0h2m4 0h1m1 0h3m1 0h1m1 0h2m1 0h2m-33 1h2m1 0h1m2 0h3m1 0h2m3 0h2m1 0h1m3 0h1m2 0h4m1 0h1m-30 1h4m3 0h2m5 0h4m4 0h4m1 0h1m-28 1h2m1 0h1m1 0h2m1 0h3m1 0h1m2 0h1m2 0h1m1 0h1m1 0h1m1 0h1m3 0h3m-32 1h1m1 0h4m5 0h1m3 0h3m4 0h2m2 0h1m2 0h1m2 0h1m-30 1h2m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m4 0h6m2 0h3m-32 1h1m1 0h1m1 0h1m4 0h1m1 0h1m2 0h1m2 0h1m1 0h1m3 0h2m2 0h1m2 0h2m-33 1h1m5 0h1m2 0h2m3 0h1m2 0h1m1 0h2m1 0h1m1 0h5m-21 1h1m2 0h2m1 0h3m1 0h2m3 0h2m3 0h2m-30 1h7m1 0h2m3 0h2m1 0h4m1 0h4m1 0h1m1 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m1 0h2m1 0h3m1 0h2m1 0h2m3 0h4m-32 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h4m1 0h9m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m5 0h3m2 0h1m1 0h2m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h4m3 0h4m2 0h2m1 0h1m-30 1h1m5 0h1m4 0h2m4 0h1m4 0h4m1 0h2m3 0h1m-33 1h7m1 0h2m1 0h4m1 0h2m1 0h3m1 0h1m4 0h1m1 0h1"/></svg><p>Jugá desde tu celular</p><p class="aula-url">tomascometti1-bit.github.io/abr--el-cofre</p></div>
+  </div>
+</header>
+
+<main>
+  <section id="conocer">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Antes de empezar</p>
+        <h2>Conocé el cofre</h2>
+        <p class="only-sala">Recorré la pieza: mirá la tapa desde un costado, rodeala y acercate a la placa. Estas fotos te ayudan a ubicar sus partes.</p>
+        <p class="only-remote">El cofre original está en el Museo Histórico UNL (9 de Julio 2154, Santa Fe). Recorrelo con estas fotos y tocá «Ampliar» para mirar los detalles: ahí están las respuestas.</p>
+      </div>
+      <div class="visor">
+        <figure class="visor-main">
+          <img id="visorimg" alt="Vista frontal del cofre">
+          <button class="btn btn-sm visor-zoom" type="button" id="visorzoom">Ampliar</button>
+          <figcaption id="visorcap">Vista frontal. Foto: Museo Histórico UNL.</figcaption>
+        </figure>
+        <div class="thumbs" role="tablist" aria-label="Vistas del cofre" id="thumbs"></div>
+        <ol class="partes" id="partes" hidden>
+          <li>Tapa en forma de pirámide baja</li>
+          <li>Placa de bronce con la dedicatoria</li>
+          <li>Corona de laurel tallada</li>
+          <li>Cornisa moldurada</li>
+          <li>Cerradura</li>
+          <li>Panel con guirnalda y corona oval</li>
+          <li>Esquina con hojas de acanto</li>
+          <li>Zócalo</li>
+          <li>Faldón con una concha tallada</li>
+          <li>Rodilla tallada</li>
+          <li>Pata curva en S (cabriolé)</li>
+          <li>Pie en voluta</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="mirar">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">1 · Mirar</p>
+        <h2>Seis preguntas que responde el cofre</h2>
+        <p><span class="only-sala">Cada respuesta está en la pieza que tenés enfrente.</span><span class="only-remote">Cada respuesta está en las fotos del cofre.</span> Por cada acierto ganás una llave y una parte de su historia.</p>
+      </div>
+      <div class="retos" id="retos"></div>
+      <div class="stepper" id="stepper">
+        <button class="btn btn-ghost btn-sm" type="button" id="prevq">Anterior</button>
+        <span class="pos" id="posq">Pregunta 1 de 6</span>
+        <button class="btn btn-sm" type="button" id="nextq">Siguiente</button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="abrir">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">2 · Abrir</p>
+        <h2>¿Qué guardaba el cofre?</h2>
+      </div>
+      <div class="open-zone" id="openzone">
+        <svg class="cofre-svg" id="cofresvg" viewBox="0 0 320 330" role="img" aria-labelledby="cofretitle">
+          <title id="cofretitle">Ilustración del cofre: al abrirse, la tapa se levanta y aparece una bandera argentina</title>
+          <defs>
+            <linearGradient id="oak" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5a3a22"/><stop offset="1" stop-color="#3a2415"/></linearGradient>
+            <linearGradient id="bronze" x1="0" x2="1"><stop offset="0" stop-color="#8b6a2f"/><stop offset=".5" stop-color="#e9cc8a"/><stop offset="1" stop-color="#8b6a2f"/></linearGradient>
+            <radialGradient id="light" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#f6e7b8" stop-opacity=".75"/><stop offset="1" stop-color="#f6e7b8" stop-opacity="0"/></radialGradient>
+            <clipPath id="boxclip"><rect x="0" y="0" width="320" height="151"/></clipPath>
+          </defs>
+          <ellipse id="glow" cx="160" cy="118" rx="150" ry="110" fill="url(#light)"/>
+          <!-- patas -->
+          <g fill="none" stroke="#3a2415" stroke-width="9" stroke-linecap="round">
+            <path d="M74 236 C58 262 72 278 80 300 C83 308 78 314 70 316"/>
+            <path d="M246 236 C262 262 248 278 240 300 C237 308 242 314 250 316"/>
+          </g>
+          <g fill="none" stroke="#2a190e" stroke-width="6" stroke-linecap="round" opacity=".8">
+            <path d="M104 236 C96 258 104 274 108 292 C110 298 106 302 101 303"/>
+            <path d="M216 236 C224 258 216 274 212 292 C210 298 214 302 219 303"/>
+          </g>
+          <!-- faldón -->
+          <path d="M62 222 H258 V236 C240 246 222 240 204 244 C190 248 176 236 160 236 C144 236 130 248 116 244 C98 240 80 246 62 236 Z" fill="url(#oak)" stroke="#2a190e"/>
+          <path d="M150 238 l10 -12 l10 12 l-10 6 z" fill="#8b6a2f" opacity=".7"/>
+          <!-- zócalo -->
+          <rect x="52" y="208" width="216" height="15" rx="2" fill="#4a2f1b" stroke="#2a190e"/>
+          <!-- caja -->
+          <rect x="60" y="151" width="200" height="58" fill="url(#oak)" stroke="#2a190e"/>
+          <rect x="78" y="160" width="164" height="40" rx="3" fill="none" stroke="#7a5534" stroke-width="1.5"/>
+          <path d="M92 168 Q118 186 142 170 Q160 182 178 170 Q202 186 228 168" fill="none" stroke="#a37b4c" stroke-width="2"/>
+          <ellipse cx="160" cy="184" rx="13" ry="10" fill="none" stroke="#a37b4c" stroke-width="2"/>
+          <circle cx="160" cy="156" r="1.8" fill="#130c07"/>
+          <!-- tapa -->
+          <g id="lid">
+            <rect x="50" y="139" width="220" height="13" rx="2" fill="#4a2f1b" stroke="#2a190e"/>
+            <path d="M56 139 H264 L212 112 H108 Z" fill="url(#oak)" stroke="#2a190e"/>
+            <path d="M112 136 H208 L190 117 H130 Z" fill="url(#bronze)" opacity=".95"/>
+            <circle cx="160" cy="131" r="4" fill="#8b6a2f" stroke="#e9cc8a" stroke-width=".8"/>
+            <path d="M74 134 q8 -7 16 0" fill="none" stroke="#a37b4c" stroke-width="2"/>
+            <path d="M230 134 q8 -7 16 0" fill="none" stroke="#a37b4c" stroke-width="2"/>
+          </g>
+          <!-- bandera (ilustrativa) -->
+          <g clip-path="url(#boxclip)">
+            <g id="flag">
+              <rect x="157" y="22" width="4" height="130" rx="2" fill="#c9a04f"/>
+              <g id="flagwave">
+                <rect x="161" y="26" width="104" height="22" fill="#74acdf"/>
+                <rect x="161" y="48" width="104" height="22" fill="#f7f5ef"/>
+                <rect x="161" y="70" width="104" height="22" fill="#74acdf"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+        <p class="lock-note" id="locknote">Te faltan 6 llaves para abrirlo.</p>
+        <button class="btn" id="openbtn" type="button" disabled>Abrir el cofre</button>
+        <div class="reveal" id="reveal" hidden>
+          <h3>Una bandera argentina</h3>
+          <p>Las donantes la ofrendaron «inspiradas en el amor a la patria» a estudiantes que pedían una universidad nacional para el Litoral. Para ellas, apoyar esa universidad era servir a la patria. La bandera y el cofre se conservan en el Museo Histórico UNL.</p>
+          <p class="muted small">La ilustración es una recreación; la bandera original se guarda en el museo.</p>
+          <div class="helper"><button class="btn btn-ghost btn-sm speak" type="button" data-say="reveal"><svg width="16" height="16" aria-hidden="true"><use href="#i-sound"/></svg>Escuchar</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="historia">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">3 · La historia que guarda</p>
+        <h2>Siete años de lucha, 1912-1919</h2>
+        <p>Alejandro Grüning Rosas (Rosario, 1890-1973) recibió el cofre como primer presidente del Centro Estudiantes de Derecho. Estuvo en cada paso de la lucha por la universidad. Seguí su recorrido con piezas del museo.</p>
+      </div>
+      <p class="locked-msg" id="lockedmsg">Abrí el cofre para leer la historia completa. Por ahora, estas son las fechas.</p>
+      <ol class="timeline is-locked" id="timeline" style="list-style:none;margin:0"></ol>
+      <figure class="quote" id="quote" hidden>
+        <img src="img/t_agr_face.jpg" alt="Retrato de Alejandro Grüning Rosas. Museo Histórico UNL">
+        <div>
+          <blockquote>«Yo algo tengo en mi poder y lo conservo, como un tesoro (es mi única riqueza), con los recuerdos de las luchas inolvidables de Santa Fe».</blockquote>
+          <cite>Alejandro Grüning Rosas, 1940. Su archivo es hoy una colección de este museo, como el cofre.</cite>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="dejar">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">4 · Dejar</p>
+        <h2>Dejá tu bandera</h2>
+        <p>En 1914, catorce mujeres dejaron sus nombres en bronce para apoyar a los estudiantes. ¿Qué les dejarías hoy a quienes estudian en la UNL?</p>
+      </div>
+      <form class="form" id="wallform" novalidate>
+        <label for="msg">Tu mensaje
+          <textarea id="msg" name="msg" maxlength="140" placeholder="Por ejemplo: que la universidad siga abierta para todos." required></textarea>
+        </label>
+        <span class="count" id="count">0 / 140</span>
+        <div class="form-row">
+          <label for="who">Firma (opcional)
+            <input id="who" name="who" maxlength="40" placeholder="Tu nombre o «Anónimo»" autocomplete="off">
+          </label>
+          <label for="role">Soy
+            <select id="role" name="role">
+              <option value="">Prefiero no decirlo</option>
+              <option>Estudiante de la UNL</option>
+              <option>Graduado/a</option>
+              <option>Docente o nodocente</option>
+              <option>Visitante</option>
+            </select>
+          </label>
+        </div>
+        <div class="helper">
+          <button class="btn" type="submit" id="wallsubmit">Dejar mi bandera</button>
+          <span class="feedback" id="wallfeedback" role="status" aria-live="polite"></span>
+        </div>
+        <p class="muted small" id="wallnote">Tu bandera queda guardada en este dispositivo y aparece en el muro.</p>
+        <a class="btn btn-ghost btn-sm" id="sendmuseum" target="_blank" rel="noopener" hidden>Enviarla también al muro del museo</a>
+      </form>
+      <div class="wall" id="wall"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" style="margin-bottom:10px">La pieza</p>
+      <dl class="ficha">
+        <dt>Nombre</dt><dd>Cofre donado al Centro Estudiantes de Derecho por mujeres santafesinas</dd>
+        <dt>Fecha</dt><dd>Santa Fe, 8 de julio de 1914</dd>
+        <dt>Materiales</dt><dd>Roble francés tallado y placa de bronce fundido</dd>
+        <dt>Medidas</dt><dd>1,10 m de alto × 0,80 m de largo × 0,50 m de ancho</dd>
+        <dt>Colección</dt><dd>Movimiento Estudiantil Reformista, 1914 · <a href="https://museohistoricounl.com.ar/tesoro/cofre-donado-al-centro-de-estudiantes-de-derecho-por-mujeres-santafesinas/" target="_blank" rel="noopener">ficha del museo</a></dd>
+      </dl>
+    </div>
+    <div class="modes" id="modes"><span>Modo:</span><a href="#sala" data-m="sala">En la sala del museo</a><a href="#distancia" data-m="distancia">A distancia</a><a href="#aula" data-m="aula">Aula con proyector</a></div>
+    <div class="tools">
+      <button class="btn btn-ghost btn-sm" type="button" id="showall">Ver todo sin jugar</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="reset">Empezar de nuevo</button>
+    </div>
+    <div class="credits">
+      <p>Propuesta museológica del trabajo final de la electiva «Patrimonio cultural del Museo Histórico UNL. Conociendo sus colecciones» (2026). Autor: Tomás Cometti.</p>
+      <p>Fotos y documentos: Museo Histórico UNL «Marta Samatan» y UNL Noticias (2014). Fuentes: Scarciófolo y Carrazzoni, <i>Cuerpo de intenciones</i> (UNL, 2018); Scarciófolo y Centurión, <i>Caja de resonancia</i> (MHUNL, c. 2013); MHUNL, <i>La Reforma Universitaria</i> (2019); fichas del «Tesoro del museo».</p>
+    </div>
+  </div>
+</footer>
+
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <div class="zoom-bar"><span id="zoomcap"></span><div class="grp"><button class="btn btn-ghost btn-sm" type="button" id="zoomout" aria-label="Alejar">−</button><button class="btn btn-ghost btn-sm" type="button" id="zoomin" aria-label="Acercar">+</button><button class="btn btn-sm" type="button" id="zoomclose">Cerrar</button></div></div>
+  <div class="zoom-stage" id="zoomstage"><img id="zoomimg" alt=""></div>
+</div>
+
+<script>
+(function(){
+  // Muro del museo (opcional): pegar acá el enlace de un Formulario de Google con campos de respuesta
+  // prellenada, por ejemplo "https://docs.google.com/forms/d/e/XXXX/viewform?usp=pp_url&entry.111=",
+  // y los identificadores de cada campo. Si queda vacío, el muro funciona solo en el dispositivo.
+  var CONFIG = { formUrl: "", fieldMsg: "", fieldWho: "", fieldRole: "" };
+
+  var IMG = {
+    r1: "img/r1_tapa.jpg", r2: "img/r2_placa.jpg", r3: "img/r3_laurel.jpg",
+    r4: "img/r4_nombres.jpg", r5: "img/r5_fecha.jpg", r6: "img/r6_querubin.jpg",
+    discurso: "img/t_discurso.jpg", acta: "img/t_acta.jpg",
+    firma: "img/t_firma.jpg", f1918: "img/t_1918.jpg",
+    vfrente: "img/v_frente.jpg", v34: "img/v_34.jpg", vlado: "img/v_lado.jpg", vpartes: "img/v_partes.jpg"
+  };
+  IMG.cofre = IMG.vfrente;
+  var VIEWS = [
+    { k: "vfrente", t: "Frente", cap: "Vista frontal. Foto: Museo Histórico UNL." },
+    { k: "v34", t: "Tres cuartos", cap: "Vista en tres cuartos, desde arriba: se ven la tapa y la placa. Foto: Museo Histórico UNL." },
+    { k: "vlado", t: "Costado", cap: "Costado del cofre. Foto: Museo Histórico UNL." },
+    { k: "vpartes", t: "Partes", cap: "Las partes del cofre, numeradas. Foto: Museo Histórico UNL; anotación propia." }
+  ];
+
+  var RETOS = [
+    { tag: "La forma", q: "¿Qué forma tiene la tapa?", hint: "Mirala desde un costado: contá sus caras inclinadas.",
+      opts: ["Una pirámide baja, con cuatro caras inclinadas", "Un techo a dos aguas", "Una cúpula redonda", "Una tapa plana"], ok: 0, order: [1,0,2,3],
+      img: "r1", cap: "La tapa, vista desde arriba. Foto: Museo Histórico UNL.",
+      relato: "Es un tronco de pirámide: cuatro caras inclinadas, como un techo a cuatro aguas. La cara de adelante se inclina hacia vos, como un atril, para que leas la placa sin agacharte. Abajo, la caja es un prisma y todo se apoya en cuatro patas curvas en forma de S." },
+    { tag: "El material", q: "¿De qué material es la placa con la dedicatoria?", hint: "Brilla en los relieves y se oscurece en los huecos.",
+      opts: ["Bronce", "Madera tallada", "Mármol", "Hierro pintado"], ok: 0, order: [1,2,0,3],
+      img: "r2", cap: "La placa de bronce. Foto: UNL Noticias (2014).",
+      relato: "Es bronce fundido: el metal líquido se coló en un molde con las letras en relieve y después se terminó a cincel. La pátina oscura de los huecos es el tiempo sobre el cobre. El cofre es de roble francés, tallado a mano." },
+    { tag: "El adorno", q: "¿Qué planta está tallada en los costados de la tapa?", hint: "Con ella se coronaba a los vencedores.",
+      opts: ["Laurel", "Olivo", "Vid", "Rosas"], ok: 0, order: [0,1,2,3],
+      img: "r3", cap: "Corona de laurel tallada en roble. Foto: Museo Histórico UNL.",
+      relato: "Laurel, la planta del triunfo y del honor. Hay coronas en los costados de la tapa y otra, ovalada y vacía, en el frente de la caja, colgada de una guirnalda. Buscá también las hojas de acanto en las esquinas y la concha tallada en el faldón." },
+    { tag: "Las donantes", q: "¿Cuántas mujeres firman la ofrenda en la placa?", hint: "Contá los nombres que siguen a la dedicatoria.",
+      opts: ["14", "7", "21", "3"], ok: 0, order: [1,2,3,0],
+      img: "r4", cap: "Los nombres de las donantes en la placa. Foto: UNL Noticias (2014).",
+      relato: "Son 14 «damas santafecinas». En 1914 las mujeres no votaban y casi no estudiaban en la universidad, pero apoyaron en público a los estudiantes. La placa las nombra con el apellido del marido: «de Menchaca», «de Cullen», «de Iriondo». Menchaca era el apellido del gobernador de ese momento." },
+    { tag: "La fecha", q: "¿Qué fecha está grabada en la placa?", hint: "Está en la última línea de la dedicatoria.",
+      opts: ["8 de julio de 1914", "25 de mayo de 1910", "15 de junio de 1918", "17 de octubre de 1919"], ok: 0, order: [2,0,1,3],
+      img: "r5", cap: "La dedicatoria y la fecha. Foto: UNL Noticias (2014).",
+      relato: "Santa Fe, 8 de julio de 1914, la víspera del 9 de Julio. Ese año nació el Centro Estudiantes de Derecho; su primer presidente, Alejandro Grüning Rosas, recibió el cofre. En octubre, el Centro ya proponía crear una universidad regional.",
+      extra: "Las otras fechas también son de esta historia: 1910 fue el Centenario, en 1918 estalló la Reforma en Córdoba y en 1919 se promulgó la ley que creó la UNL." },
+    { tag: "El símbolo", q: "¿Quién acompaña al medallón de la República, abajo de la placa?", hint: "Es una figura infantil, sentada junto al medallón.",
+      opts: ["Un querubín", "Un león", "Un cóndor", "Un soldado"], ok: 0, order: [3,1,0,2],
+      img: "r6", cap: "Medallón de la República y querubín, en bronce. Foto: Museo Histórico UNL.",
+      relato: "Un querubín acompaña un medallón con el perfil de una mujer coronada de laurel: la República. En una misma imagen de bronce se juntan la patria, el triunfo y la ofrenda. La dedicatoria lo dice así: «Inspiradas en el amor a la patria»." }
+  ];
+
+  var HISTORIA = [
+    { y: "1912", t: "La calle", img: "discurso", cap: "Manuscrito del discurso de Grüning Rosas. Museo Histórico UNL.",
+      link: "https://museohistoricounl.com.ar/tesoro/discurso-pronunciado-por-alejandro-gruning-rosas-en-1912/",
+      p: "El 8 de septiembre, los estudiantes de la Universidad de Santa Fe salen a la calle con docentes, obreros y asociaciones para pedir que la universidad sea nacional. Grüning Rosas, presidente de la Federación de Estudiantes, habla en el mitin: «La nacionalización traerá la reforma de lo que sea menester reformar»." },
+    { y: "1914", t: "El cofre", img: "cofre", cap: "El cofre. Foto: Museo Histórico UNL.",
+      link: "https://museohistoricounl.com.ar/tesoro/cofre-donado-al-centro-de-estudiantes-de-derecho-por-mujeres-santafesinas/",
+      p: "Nace el Centro Estudiantes de Derecho y Grüning Rosas es su primer presidente. El 8 de julio, catorce mujeres le ofrendan esta bandera y este cofre. En octubre, el Centro invita al jurista Rodolfo Rivarola y le propone crear por ley una universidad regional." },
+    { y: "1916", t: "El acta", img: "acta", img2: "firma", cap: "Acta I Pro Creación de la UNL y, abajo, la firma de A. Grüning Rosas. Museo Histórico UNL.",
+      link: "https://museohistoricounl.com.ar/tesoro/i-acta-pro-creacion-unl/",
+      p: "El 27 de junio, 42 personas se reúnen en la Sociedad Cosmopolita, el edificio donde hoy funciona el museo, y forman el comité Pro Universidad Nacional del Litoral, presidido por el exgobernador Manuel Menchaca. Entre los firmantes están los estudiantes Grüning Rosas, Pablo Vrillaud y Horacio Varela." },
+    { y: "1918", t: "Córdoba", img: "f1918", cap: "Estudiantes sesionando en Córdoba, 1918. Colección Alejandro Grüning Rosas, Museo Histórico UNL.",
+      link: "https://museohistoricounl.com.ar/tesoro/fotografia-1918-estudiantes-sesionando-se-reconocen-los-estudiantes-del-litoral-reunidos-en-cordoba-coleccion-alejandro-gruning-rosas/",
+      p: "Del 20 al 31 de julio, el Primer Congreso Nacional de Estudiantes Universitarios debate cómo debe ser la universidad reformista. Grüning Rosas es uno de los vicepresidentes de la mesa y los santafesinos piden crear la Universidad Nacional del Litoral." },
+    { y: "1919", t: "La ley",
+      p: "El 17 de octubre se promulga la ley que crea la Universidad Nacional del Litoral, la primera organizada con los principios de la Reforma: por eso la llaman «hija de la Reforma». Ese año, Grüning Rosas es secretario general de la Federación Universitaria Argentina." },
+    { y: "1922", t: "La fundación",
+      link: "https://museohistoricounl.com.ar/tesoro/acta-de-fundacion-de-la-universidad-nacionaldel-litoral-1922/",
+      p: "En nombre del presidente Hipólito Yrigoyen, el ministro José S. Salinas declara fundada la universidad y entrega el rectorado a José Benjamín Ábalos: «Os entrego, señor rector, la Universidad Nacional del Litoral». La historia que empezó en la calle en 1912 ya tiene casa." }
+  ];
+
+  var REVEAL_TXT = "Adentro había una bandera argentina. Las donantes la ofrendaron, inspiradas en el amor a la patria, a estudiantes que pedían una universidad nacional para el Litoral. Para ellas, apoyar esa universidad era servir a la patria.";
+  var FIRST = { txt: "Inspiradas en el amor a la patria, las damas santafecinas ofrendan esta bandera al Centro Estudiantes de Derecho", who: "Catorce donantes · Santa Fe, 8 de julio de 1914 · la primera bandera de este muro" };
+
+  // ---------- estado ----------
+  var KEY = "abri-el-cofre-v1";
+  var state = { keys: [false,false,false,false,false,false], opened: false, wall: [] };
+  try { var raw = localStorage.getItem(KEY); if (raw) { var s = JSON.parse(raw); if (s && Array.isArray(s.keys) && s.keys.length === 6) state = Object.assign(state, s); } } catch (e) {}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function el(tag, attrs, html){ var n = document.createElement(tag); if (attrs) for (var k in attrs){ if (k === "class") n.className = attrs[k]; else n.setAttribute(k, attrs[k]); } if (html != null) n.innerHTML = html; return n; }
+  function keySvg(){ return '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-key"/></svg>'; }
+  function count(){ return state.keys.filter(Boolean).length; }
+
+  var live = el("p", { class: "sr", "aria-live": "polite" }); document.body.appendChild(live);
+  function announce(t){ live.textContent = t; }
+
+  // ---------- voz ----------
+  var synth = window.speechSynthesis, voice = null, speakingBtn = null;
+  function pickVoice(){ if (!synth) return; var vs = synth.getVoices() || []; voice = vs.find(function(v){ return /^es[-_]AR/i.test(v.lang); }) || vs.find(function(v){ return /^es/i.test(v.lang); }) || null; }
+  if (synth){ pickVoice(); if (typeof synth.onvoiceschanged !== "undefined") synth.onvoiceschanged = pickVoice; }
+  function speak(text, btn){
+    if (!synth) return;
+    if (speakingBtn === btn && synth.speaking){ synth.cancel(); speakingBtn = null; return; }
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : "es-AR"; if (voice) u.voice = voice; u.rate = 0.98;
+    u.onend = function(){ speakingBtn = null; };
+    speakingBtn = btn; synth.speak(u);
+  }
+  function speakBtn(text){
+    if (!synth) return null;
+    var b = el("button", { class: "btn btn-ghost btn-sm", type: "button" }, '<svg width="16" height="16" aria-hidden="true"><use href="#i-sound"/></svg>Escuchar');
+    b.addEventListener("click", function(){ speak(text, b); });
+    return b;
+  }
+
+  // ---------- barra de llaves ----------
+  var keysEl = document.getElementById("keys");
+  for (var i = 0; i < 6; i++){ var k = el("span", { class: "key" }, keySvg()); keysEl.appendChild(k); }
+  function renderKeys(){
+    var c = count();
+    document.getElementById("keycount").textContent = c;
+    Array.prototype.forEach.call(keysEl.children, function(n, i){ n.classList.toggle("on", !!state.keys[i]); });
+    var btn = document.getElementById("openbtn"), note = document.getElementById("locknote");
+    if (state.opened){ btn.hidden = true; note.textContent = "Cofre abierto."; }
+    else if (c === 6){ btn.disabled = false; btn.hidden = false; note.textContent = "Tenés las seis llaves."; }
+    else { btn.disabled = true; btn.hidden = false; var f = 6 - c; note.textContent = "Te " + (f === 1 ? "falta 1 llave" : "faltan " + f + " llaves") + " para abrirlo."; }
+  }
+
+  // ---------- retos ----------
+  var retosEl = document.getElementById("retos"), doneFns = [], cardRefs = [];
+  function buildRetos(){
+  retosEl.innerHTML = ""; doneFns = []; cardRefs = [];
+  RETOS.forEach(function(r, idx){
+    var card = el("article", { class: "reto", id: "reto-" + (idx + 1), "aria-labelledby": "rq-" + idx });
+    card.innerHTML =
+      '<div class="reto-top"><span class="reto-num eyebrow">' + keySvg() + 'Llave ' + (idx + 1) + ' · ' + r.tag + '</span></div>' +
+      '<h3 id="rq-' + idx + '">' + r.q + '</h3>';
+    var opts = el("div", { class: "opts", role: "group", "aria-label": "Opciones" });
+    // orden de las opciones mezclado de forma fija por pregunta
+    var order = r.order;
+    var fb = el("p", { class: "feedback", role: "status", "aria-live": "polite" });
+    var helper = el("div", { class: "helper" });
+    var photo = el("figure", { class: "photo" }); photo.hidden = true;
+    photo.innerHTML = '<img loading="lazy" alt="' + r.cap.replace(/"/g, "&quot;") + '" src="' + IMG[r.img] + '"><figcaption>' + r.cap + '</figcaption>';
+    photo.querySelector("img").addEventListener("click", function(){ openZoom(IMG[r.img], r.cap); });
+    var helpBtn = el("button", { class: "btn btn-ghost btn-sm", type: "button", "aria-expanded": "false" }, "No estoy en el museo: ver foto");
+    helpBtn.addEventListener("click", function(){ photo.hidden = !photo.hidden; helpBtn.setAttribute("aria-expanded", String(!photo.hidden)); helpBtn.textContent = photo.hidden ? "No estoy en el museo: ver foto" : "Ocultar foto"; });
+    helper.appendChild(helpBtn);
+    var relato = el("div", { class: "relato" }); relato.hidden = true;
+    relato.appendChild(el("p", null, r.relato));
+    if (r.extra) relato.appendChild(el("p", { class: "extra" }, r.extra));
+    var sb = speakBtn(r.relato + (r.extra ? " " + r.extra : "")); if (sb){ var h = el("div", { class: "helper" }); h.appendChild(sb); relato.appendChild(h); }
+
+    function markDone(animate){
+      card.classList.add("done");
+      Array.prototype.forEach.call(opts.children, function(b){ b.disabled = true; if (+b.dataset.i === r.ok) b.classList.add("is-right"); });
+      fb.textContent = ""; helper.hidden = true; photo.hidden = false; relato.hidden = false;
+      card.insertBefore(photo, relato);
+    }
+    order.forEach(function(oi){
+      var b = el("button", { class: "opt", type: "button" }, r.opts[oi]); b.dataset.i = oi;
+      b.addEventListener("click", function(){
+        if (oi === r.ok){ state.keys[idx] = true; save(); markDone(true); renderKeys(); fb.textContent = ""; announce("Ganaste la llave " + (idx + 1) + ". Llevás " + count() + " de 6."); updateStepper(); if (count() === 6 && mode !== "aula") document.getElementById("abrir").scrollIntoView({ behavior: "smooth", block: "start" }); }
+        else { b.classList.remove("is-wrong"); void b.offsetWidth; b.classList.add("is-wrong"); fb.textContent = "Todavía no. Pista: " + r.hint; }
+      });
+      opts.appendChild(b);
+    });
+    card.appendChild(opts); card.appendChild(fb); card.appendChild(helper); card.appendChild(photo); card.appendChild(relato);
+    retosEl.appendChild(card);
+    doneFns[idx] = markDone;
+    cardRefs[idx] = { card: card, photo: photo, helper: helper };
+    if (state.keys[idx]) markDone(false);
+  });
+  applyPhotos();
+  }
+
+  // ---------- modos ----------
+  var mode = "distancia", stepIdx = 0;
+  function modeFromHash(){ var h = (location.hash || "").replace("#", ""); return ["sala", "distancia", "aula"].indexOf(h) >= 0 ? h : null; }
+  function applyPhotos(){
+    cardRefs.forEach(function(c, i){
+      if (state.keys[i]) return;
+      var remote = mode !== "sala";
+      c.photo.hidden = !remote; c.helper.hidden = remote;
+    });
+  }
+  function firstOpen(){ for (var i = 0; i < 6; i++) if (!state.keys[i]) return i; return 5; }
+  function updateStepper(){
+    cardRefs.forEach(function(c, i){ c.card.classList.toggle("current", i === stepIdx); });
+    document.getElementById("posq").textContent = "Pregunta " + (stepIdx + 1) + " de 6";
+    document.getElementById("prevq").disabled = stepIdx === 0;
+    var nx = document.getElementById("nextq");
+    nx.textContent = stepIdx === 5 ? "Ir a abrir el cofre" : "Siguiente";
+  }
+  function applyMode(m){
+    mode = m;
+    document.body.classList.remove("mode-sala", "mode-distancia", "mode-aula");
+    document.body.classList.add("mode-" + m);
+    Array.prototype.forEach.call(document.querySelectorAll("#modes a"), function(a){ a.setAttribute("aria-current", String(a.dataset.m === m)); });
+    applyPhotos(); updateStepper();
+  }
+  function showCurrent(){ var c = cardRefs[stepIdx]; if (c) c.card.scrollIntoView({ block: "start" }); }
+  document.getElementById("prevq").addEventListener("click", function(){ if (stepIdx > 0){ stepIdx--; updateStepper(); showCurrent(); } });
+  document.getElementById("nextq").addEventListener("click", function(){
+    if (stepIdx < 5){ stepIdx++; updateStepper(); showCurrent(); }
+    else document.getElementById("abrir").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  window.addEventListener("hashchange", function(){ var m = modeFromHash(); if (m) applyMode(m); });
+
+  // ---------- visor y zoom ----------
+  var zoomEl = document.getElementById("zoom"), zoomImg = document.getElementById("zoomimg"), zoomLevels = [1, 1.6, 2.4, 3.2], zl = 0, lastFocus = null;
+  function setZoom(i){ zl = Math.max(0, Math.min(zoomLevels.length - 1, i)); zoomImg.style.width = (zoomLevels[zl] * 100) + "%"; document.getElementById("zoomout").disabled = zl === 0; document.getElementById("zoomin").disabled = zl === zoomLevels.length - 1; }
+  function openZoom(src, cap){ lastFocus = document.activeElement; zoomImg.src = src; zoomImg.alt = cap; document.getElementById("zoomcap").textContent = cap; setZoom(1); zoomEl.hidden = false; document.getElementById("zoomclose").focus(); }
+  function closeZoom(){ zoomEl.hidden = true; zoomImg.removeAttribute("src"); if (lastFocus) lastFocus.focus(); }
+  document.getElementById("zoomin").addEventListener("click", function(){ setZoom(zl + 1); });
+  document.getElementById("zoomout").addEventListener("click", function(){ setZoom(zl - 1); });
+  document.getElementById("zoomclose").addEventListener("click", closeZoom);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !zoomEl.hidden) closeZoom(); });
+  var vIdx = 0, visorImg = document.getElementById("visorimg"), thumbsEl = document.getElementById("thumbs");
+  function showView(i){
+    vIdx = i; var v = VIEWS[i];
+    visorImg.src = IMG[v.k]; visorImg.alt = v.cap; document.getElementById("visorcap").textContent = v.cap;
+    document.getElementById("partes").hidden = v.k !== "vpartes";
+    Array.prototype.forEach.call(thumbsEl.children, function(b, j){ b.setAttribute("aria-selected", String(j === i)); });
+  }
+  VIEWS.forEach(function(v, i){
+    var b = el("button", { class: "thumb", type: "button", role: "tab", "aria-selected": "false" });
+    var im = el("img", { alt: "" }); im.src = IMG[v.k]; b.appendChild(im); b.appendChild(document.createTextNode(v.t));
+    b.addEventListener("click", function(){ showView(i); });
+    thumbsEl.appendChild(b);
+  });
+  visorImg.addEventListener("click", function(){ openZoom(IMG[VIEWS[vIdx].k], VIEWS[vIdx].cap); });
+  document.getElementById("visorzoom").addEventListener("click", function(){ openZoom(IMG[VIEWS[vIdx].k], VIEWS[vIdx].cap); });
+  showView(0);
+  document.getElementById("heroimg").style.backgroundImage = "url(" + IMG.v34 + ")";
+  document.getElementById("startbtn").addEventListener("click", function(){ document.getElementById("conocer").scrollIntoView({ behavior: "smooth", block: "start" }); });
+
+  buildRetos();
+  stepIdx = firstOpen();
+  applyMode(modeFromHash() || "distancia");
+
+  // ---------- abrir ----------
+  var zone = document.getElementById("openzone");
+  function openCofre(animate){
+    state.opened = true; save();
+    zone.classList.add("is-open");
+    document.getElementById("reveal").hidden = false;
+    document.getElementById("timeline").classList.remove("is-locked");
+    document.getElementById("lockedmsg").hidden = true;
+    document.getElementById("quote").hidden = false;
+    renderKeys();
+  }
+  function closeCofre(){
+    zone.classList.remove("is-open");
+    document.getElementById("reveal").hidden = true;
+    document.getElementById("timeline").classList.add("is-locked");
+    document.getElementById("lockedmsg").hidden = false;
+    document.getElementById("quote").hidden = true;
+  }
+  document.getElementById("openbtn").addEventListener("click", function(){ if (count() === 6){ openCofre(true); announce("El cofre está abierto."); } });
+  var rb = document.querySelector('[data-say="reveal"]'); if (rb){ if (synth) rb.addEventListener("click", function(){ speak(REVEAL_TXT, rb); }); else rb.hidden = true; }
+
+  // ---------- historia ----------
+  var tl = document.getElementById("timeline");
+  HISTORIA.forEach(function(h){
+    var li = el("li", { class: "t-item" });
+    var body = el("div", { class: "t-body" });
+    body.appendChild(el("p", null, h.p));
+    if (h.img){
+      var fig = el("figure", { class: "photo" });
+      fig.innerHTML = '<img loading="lazy" src="' + IMG[h.img] + '" alt="' + h.cap.replace(/"/g, "&quot;") + '">' + (h.img2 ? '<img loading="lazy" src="' + IMG[h.img2] + '" alt="Firma de A. Grüning Rosas en el acta" style="max-width:320px">' : "") + '<figcaption>' + h.cap + '</figcaption>';
+      body.appendChild(fig);
+    }
+    var row = el("div", { class: "helper" });
+    if (h.link) row.appendChild(el("a", { class: "t-link", href: h.link, target: "_blank", rel: "noopener" }, "Ver la pieza en el museo"));
+    var sb = speakBtn(h.y + ". " + h.t + ". " + h.p); if (sb) row.appendChild(sb);
+    body.appendChild(row);
+    li.innerHTML = '<span class="t-year">' + h.y + '</span><span class="t-title">' + h.t + '</span>';
+    li.appendChild(body);
+    tl.appendChild(li);
+  });
+
+  // ---------- muro ----------
+  var wall = document.getElementById("wall");
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); }
+  function renderWall(){
+    wall.innerHTML = "";
+    var f = el("article", { class: "flagcard first" });
+    f.innerHTML = '<div class="stripe"></div><div class="in"><p class="txt">' + FIRST.txt + '</p><p class="who">' + FIRST.who + '</p></div>';
+    wall.appendChild(f);
+    state.wall.slice().reverse().forEach(function(m){
+      var c = el("article", { class: "flagcard" });
+      var who = [m.who || "Anónimo", m.role].filter(Boolean).join(" · ");
+      c.innerHTML = '<div class="stripe"></div><div class="in"><p class="txt">«' + esc(m.text) + '»</p><p class="who">' + esc(who) + ' · ' + esc(m.date) + '</p></div>';
+      wall.appendChild(c);
+    });
+  }
+  var msg = document.getElementById("msg"), cnt = document.getElementById("count");
+  msg.addEventListener("input", function(){ cnt.textContent = msg.value.length + " / 140"; });
+  var sendM = document.getElementById("sendmuseum");
+  document.getElementById("wallform").addEventListener("submit", function(e){
+    e.preventDefault();
+    var text = msg.value.trim(), who = document.getElementById("who").value.trim(), role = document.getElementById("role").value;
+    var fbk = document.getElementById("wallfeedback");
+    if (!text){ fbk.textContent = "Escribí un mensaje antes de dejar tu bandera."; msg.focus(); return; }
+    var d = new Date(); var date = d.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+    state.wall.push({ text: text.slice(0, 140), who: who.slice(0, 40), role: role, date: date }); save(); renderWall();
+    fbk.style.color = "var(--ok)"; fbk.textContent = "Tu bandera ya está en el muro.";
+    if (CONFIG.formUrl){
+      var url = CONFIG.formUrl + encodeURIComponent(text);
+      if (CONFIG.fieldWho) url += "&" + CONFIG.fieldWho + "=" + encodeURIComponent(who);
+      if (CONFIG.fieldRole) url += "&" + CONFIG.fieldRole + "=" + encodeURIComponent(role);
+      sendM.href = url; sendM.hidden = false;
+    }
+    msg.value = ""; cnt.textContent = "0 / 140";
+  });
+
+  // ---------- herramientas ----------
+  document.getElementById("showall").addEventListener("click", function(){
+    state.keys = [true,true,true,true,true,true];
+    doneFns.forEach(function(fn){ fn(false); });
+    openCofre(false); renderKeys();
+    announce("Se muestran todas las respuestas y la historia completa.");
+    document.getElementById("abrir").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  var resetBtn = document.getElementById("reset"), armed = null;
+  resetBtn.addEventListener("click", function(){
+    if (!armed){ resetBtn.textContent = "Tocá de nuevo para borrar el progreso"; armed = setTimeout(function(){ armed = null; resetBtn.textContent = "Empezar de nuevo"; }, 4000); return; }
+    clearTimeout(armed); armed = null;
+    var keepWall = state.wall; state = { keys: [false,false,false,false,false,false], opened: false, wall: keepWall }; save();
+    resetBtn.textContent = "Empezar de nuevo";
+    closeCofre(); buildRetos(); stepIdx = 0; updateStepper(); renderKeys(); announce("Progreso borrado. Podés empezar de nuevo.");
+    document.getElementById("mirar").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  renderKeys(); renderWall();
+  if (state.opened) openCofre(false);
+})();
+</script>
+
+</body>
+</html>
