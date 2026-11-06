@@ -20,7 +20,7 @@ El recorrido: seis retos de observación entregan seis llaves → el cofre se ab
 
 - `index.html` — la experiencia completa, sin dependencias (las tipografías se cargan de Google Fonts).
 - `img/` — fotografías del cofre y documentos.
-- `imprimibles/` — cédula A5 con QR para la sala, cartas-llave para jugar sin celular y banderas de respuesta para el aula.
+- `imprimibles/` — versión en papel: cédula A5 con QR para la sala, lámina «Conocé el cofre», cartas-llave de doble faz (se doblan y se pegan) y tarjetas «Dejá tu bandera».
 
 ## Créditos
 
