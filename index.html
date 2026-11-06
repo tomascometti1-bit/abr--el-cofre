@@ -128,6 +128,10 @@ section{padding-block:56px}
 .lock-note{color:var(--paper-dim);font-variant-numeric:tabular-nums}
 .reveal{display:grid;gap:12px;max-width:34em;text-align:left;background:var(--oak-800);border:1px solid var(--bronze-lo);border-radius:var(--radius);padding:20px}
 .reveal h3{font-size:var(--step-2);font-style:italic}
+.reveal-sub{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:var(--step-1);margin:6px 0 0;color:var(--bronze-hi)}
+.reveal-photo{margin:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--oak-950)}
+.reveal-photo img{display:block;width:100%;height:auto;cursor:zoom-in}
+.reveal-photo figcaption{padding:8px 12px;font-size:var(--step--1);color:var(--paper-mute);border-top:1px solid var(--line)}
 
 /* historia */
 .timeline{position:relative;display:grid;gap:34px;padding-left:28px}
@@ -191,7 +195,7 @@ body:not(.mode-aula) .only-aula{display:none!important}
 .visor-main img{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain;background:var(--oak-950);cursor:zoom-in}
 .visor-main figcaption{padding:10px 12px;font-size:var(--step--1);color:var(--paper-mute);border-top:1px solid var(--line)}
 .visor-zoom{position:absolute;right:10px;top:10px}
-.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .thumb{display:grid;gap:4px;background:var(--oak-800);border:1px solid var(--line);border-radius:var(--radius);padding:6px;cursor:pointer;font-size:var(--step--1);color:var(--paper-dim);text-align:center;min-width:0}
 .thumb img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;display:block}
 .thumb[aria-selected="true"]{border-color:var(--bronze);color:var(--paper)}
@@ -282,7 +286,7 @@ body.mode-aula{font-size:21px}
           <li>Corona de laurel tallada</li>
           <li>Cornisa moldurada</li>
           <li>Cerradura</li>
-          <li>Panel con guirnalda y corona oval</li>
+          <li>Panel con guirnalda y corona de campanillas</li>
           <li>Esquina con hojas de acanto</li>
           <li>Zócalo</li>
           <li>Faldón con una concha tallada</li>
@@ -322,7 +326,7 @@ body.mode-aula{font-size:21px}
       </div>
       <div class="open-zone" id="openzone">
         <svg class="cofre-svg" id="cofresvg" viewBox="0 0 320 330" role="img" aria-labelledby="cofretitle">
-          <title id="cofretitle">Ilustración del cofre: al abrirse, la tapa se levanta y aparece una bandera argentina</title>
+          <title id="cofretitle">Ilustración del cofre: al abrirse, la tapa se levanta y aparece una bandera argentina con sol</title>
           <defs>
             <linearGradient id="oak" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5a3a22"/><stop offset="1" stop-color="#3a2415"/></linearGradient>
             <linearGradient id="bronze" x1="0" x2="1"><stop offset="0" stop-color="#8b6a2f"/><stop offset=".5" stop-color="#e9cc8a"/><stop offset="1" stop-color="#8b6a2f"/></linearGradient>
@@ -367,6 +371,7 @@ body.mode-aula{font-size:21px}
                 <rect x="161" y="26" width="104" height="22" fill="#74acdf"/>
                 <rect x="161" y="48" width="104" height="22" fill="#f7f5ef"/>
                 <rect x="161" y="70" width="104" height="22" fill="#74acdf"/>
+                <g transform="translate(213 59)"><g stroke="#c8961e" stroke-width="1.15" stroke-linecap="round"><line x1="0.00" y1="-5.80" x2="0.00" y2="-10.20"/><line x1="2.22" y1="-5.36" x2="3.44" y2="-8.31"/><line x1="4.10" y1="-4.10" x2="7.21" y2="-7.21"/><line x1="5.36" y1="-2.22" x2="8.31" y2="-3.44"/><line x1="5.80" y1="-0.00" x2="10.20" y2="-0.00"/><line x1="5.36" y1="2.22" x2="8.31" y2="3.44"/><line x1="4.10" y1="4.10" x2="7.21" y2="7.21"/><line x1="2.22" y1="5.36" x2="3.44" y2="8.31"/><line x1="0.00" y1="5.80" x2="0.00" y2="10.20"/><line x1="-2.22" y1="5.36" x2="-3.44" y2="8.31"/><line x1="-4.10" y1="4.10" x2="-7.21" y2="7.21"/><line x1="-5.36" y1="2.22" x2="-8.31" y2="3.44"/><line x1="-5.80" y1="0.00" x2="-10.20" y2="0.00"/><line x1="-5.36" y1="-2.22" x2="-8.31" y2="-3.44"/><line x1="-4.10" y1="-4.10" x2="-7.21" y2="-7.21"/><line x1="-2.22" y1="-5.36" x2="-3.44" y2="-8.31"/></g><circle r="5.2" fill="#f6b40e" stroke="#85340a" stroke-width=".6"/></g>
               </g>
             </g>
           </g>
@@ -375,8 +380,12 @@ body.mode-aula{font-size:21px}
         <button class="btn" id="openbtn" type="button" disabled>Abrir el cofre</button>
         <div class="reveal" id="reveal" hidden>
           <h3>Una bandera argentina</h3>
-          <p>Las donantes la ofrendaron «inspiradas en el amor a la patria» a estudiantes que pedían una universidad nacional para el Litoral. Para ellas, apoyar esa universidad era servir a la patria. La bandera y el cofre se conservan en el Museo Histórico UNL.</p>
-          <p class="muted small">La ilustración es una recreación; la bandera original se guarda en el museo.</p>
+          <p>Las donantes la ofrendaron «inspiradas en el amor a la patria» a estudiantes que pedían una universidad nacional para el Litoral. La entregó la señorita Mercedes Leiva en una velada patriótica en el Teatro Municipal, y la recibió Alejandro Grüning Rosas.</p>
+          <p class="muted small">La ilustración recrea la bandera de 1914.</p>
+          <h4 class="reveal-sub">Lo que guarda hoy</h4>
+          <p>Esa bandera de 1914 ya no está en el museo. Hoy el cofre guarda otra: una bandera de ceremonia con el sol bordado en hilo dorado, que llevaban los deportistas universitarios hacia 1950. El cofre sigue cumpliendo su función, con un contenido de otra época.</p>
+          <figure class="reveal-photo"><img id="interiorimg" src="img/v_interior.jpg" alt="El cofre abierto por dentro: forro de felpa y una bandera argentina con el sol bordado" loading="lazy"><figcaption>El cofre por dentro, hoy. Foto: Tomás Cometti, 2026.</figcaption></figure>
+          <p><strong>¿Y la llave?</strong> Existe, y se exhibe en la Facultad de Ciencias Económicas de la UNL.</p>
           <div class="helper"><button class="btn btn-ghost btn-sm speak" type="button" data-say="reveal"><svg width="16" height="16" aria-hidden="true"><use href="#i-sound"/></svg>Escuchar</button></div>
         </div>
       </div>
@@ -390,7 +399,7 @@ body.mode-aula{font-size:21px}
       <div class="sec-head">
         <p class="eyebrow">3 · La historia que guarda</p>
         <h2>Siete años de lucha, 1912-1919</h2>
-        <p>Alejandro Grüning Rosas (Rosario, 1890-1973) recibió el cofre como primer presidente del Centro Estudiantes de Derecho. Estuvo en cada paso de la lucha por la universidad. Seguí su recorrido con piezas del museo.</p>
+        <p>Alejandro Grüning Rosas (Rosario, 1890-1974) recibió el cofre como primer presidente del Centro Estudiantes de Derecho. Estuvo en cada paso de la lucha por la universidad. Seguí su recorrido con piezas del museo.</p>
       </div>
       <p class="locked-msg" id="lockedmsg">Abrí el cofre para leer la historia completa. Por ahora, estas son las fechas.</p>
       <ol class="timeline is-locked" id="timeline" style="list-style:none;margin:0"></ol>
@@ -463,7 +472,7 @@ body.mode-aula{font-size:21px}
     </div>
     <div class="credits">
       <p>Propuesta museológica del trabajo final de la electiva «Patrimonio cultural del Museo Histórico UNL. Conociendo sus colecciones» (2026). Autor: Tomás Cometti.</p>
-      <p>Fotos y documentos: Museo Histórico UNL «Marta Samatan» y UNL Noticias (2014). Fuentes: Scarciófolo y Carrazzoni, <i>Cuerpo de intenciones</i> (UNL, 2018); Scarciófolo y Centurión, <i>Caja de resonancia</i> (MHUNL, c. 2013); MHUNL, <i>La Reforma Universitaria</i> (2019); fichas del «Tesoro del museo».</p>
+      <p>Fotos y documentos: Museo Histórico UNL «Marta Samatan» y UNL Noticias (2014); fotos de la visita al museo: Tomás Cometti (2026). Fuentes: MHUNL, <i>Recuperando memoria. 100 años de historia</i> (2014); Scarciófolo y Carrazzoni, <i>Cuerpo de intenciones</i> (UNL, 2018); Scarciófolo y Centurión, <i>Caja de resonancia</i> (MHUNL, c. 2013); MHUNL, <i>La Reforma Universitaria</i> (2019); fichas del «Tesoro del museo».</p>
     </div>
   </div>
 </footer>
@@ -485,13 +494,16 @@ body.mode-aula{font-size:21px}
     r4: "img/r4_nombres.jpg", r5: "img/r5_fecha.jpg", r6: "img/r6_querubin.jpg",
     discurso: "img/t_discurso.jpg", acta: "img/t_acta.jpg",
     firma: "img/t_firma.jpg", f1918: "img/t_1918.jpg",
-    vfrente: "img/v_frente.jpg", v34: "img/v_34.jpg", vlado: "img/v_lado.jpg", vpartes: "img/v_partes.jpg"
+    vfrente: "img/v_frente.jpg", v34: "img/v_34.jpg", vpartes: "img/v_partes.jpg",
+    vtapa: "img/v_tapa.jpg", vescudo: "img/v_escudo.jpg", vasa: "img/v_asa.jpg", interior: "img/v_interior.jpg"
   };
   IMG.cofre = IMG.vfrente;
   var VIEWS = [
     { k: "vfrente", t: "Frente", cap: "Vista frontal. Foto: Museo Histórico UNL." },
     { k: "v34", t: "Tres cuartos", cap: "Vista en tres cuartos, desde arriba: se ven la tapa y la placa. Foto: Museo Histórico UNL." },
-    { k: "vlado", t: "Costado", cap: "Costado del cofre. Foto: Museo Histórico UNL." },
+    { k: "vtapa", t: "Tapa", cap: "La tapa vista desde arriba: abajo, la cara de adelante con la placa; arriba, la de atrás con el escudo; a los costados, coronas de laurel. Foto: Tomás Cometti (2026)." },
+    { k: "vescudo", t: "Escudo", cap: "El escudo nacional tallado en la cara de atrás de la tapa, entre ramas de laurel. Foto: Tomás Cometti (2026)." },
+    { k: "vasa", t: "Costado", cap: "Costado del cofre, con el asa de bronce y las hojas de acanto de las esquinas. Foto: Tomás Cometti (2026)." },
     { k: "vpartes", t: "Partes", cap: "Las partes del cofre, numeradas. Foto: Museo Histórico UNL; anotación propia." }
   ];
 
@@ -499,7 +511,7 @@ body.mode-aula{font-size:21px}
     { tag: "La forma", q: "¿Qué forma tiene la tapa?", hint: "Mirala desde un costado: contá sus caras inclinadas.",
       opts: ["Una pirámide baja, con cuatro caras inclinadas", "Un techo a dos aguas", "Una cúpula redonda", "Una tapa plana"], ok: 0, order: [1,0,2,3],
       img: "r1", cap: "La tapa, vista desde arriba. Foto: Museo Histórico UNL.",
-      relato: "Es un tronco de pirámide: cuatro caras inclinadas, como un techo a cuatro aguas. La cara de adelante se inclina hacia vos, como un atril, para que leas la placa sin agacharte. Abajo, la caja es un prisma y todo se apoya en cuatro patas curvas en forma de S." },
+      relato: "Es una pirámide muy baja: cuatro caras triangulares que se juntan en un punto, en el centro. La de adelante se inclina hacia vos, como un atril, para que leas la placa sin agacharte; la de atrás tiene el escudo nacional tallado. Abajo, la caja es un prisma y todo se apoya en cuatro patas curvas en forma de S." },
     { tag: "El material", q: "¿De qué material es la placa con la dedicatoria?", hint: "Brilla en los relieves y se oscurece en los huecos.",
       opts: ["Bronce", "Madera tallada", "Mármol", "Hierro pintado"], ok: 0, order: [1,2,0,3],
       img: "r2", cap: "La placa de bronce. Foto: UNL Noticias (2014).",
@@ -507,7 +519,7 @@ body.mode-aula{font-size:21px}
     { tag: "El adorno", q: "¿Qué planta está tallada en los costados de la tapa?", hint: "Con ella se coronaba a los vencedores.",
       opts: ["Laurel", "Olivo", "Vid", "Rosas"], ok: 0, order: [0,1,2,3],
       img: "r3", cap: "Corona de laurel tallada en roble. Foto: Museo Histórico UNL.",
-      relato: "Laurel, la planta del triunfo y del honor. Hay coronas en los costados de la tapa y otra, ovalada y vacía, en el frente de la caja, colgada de una guirnalda. Buscá también las hojas de acanto en las esquinas y la concha tallada en el faldón." },
+      relato: "Laurel, la planta del triunfo y del honor: hay una corona en cada costado de la tapa y ramas alrededor del escudo, en la cara de atrás. En el frente de la caja cuelga otra guirnalda, pero de campanillas, flores en forma de campana. Buscá también las hojas de acanto en las esquinas y la concha tallada en el faldón." },
     { tag: "Las donantes", q: "¿Cuántas mujeres firman la ofrenda en la placa?", hint: "Contá los nombres que siguen a la dedicatoria.",
       opts: ["14", "7", "21", "3"], ok: 0, order: [1,2,3,0],
       img: "r4", cap: "Los nombres de las donantes en la placa. Foto: UNL Noticias (2014).",
@@ -515,7 +527,7 @@ body.mode-aula{font-size:21px}
     { tag: "La fecha", q: "¿Qué fecha está grabada en la placa?", hint: "Está en la última línea de la dedicatoria.",
       opts: ["8 de julio de 1914", "25 de mayo de 1910", "15 de junio de 1918", "17 de octubre de 1919"], ok: 0, order: [2,0,1,3],
       img: "r5", cap: "La dedicatoria y la fecha. Foto: UNL Noticias (2014).",
-      relato: "Santa Fe, 8 de julio de 1914, la víspera del 9 de Julio. Ese año nació el Centro Estudiantes de Derecho; su primer presidente, Alejandro Grüning Rosas, recibió el cofre. En octubre, el Centro ya proponía crear una universidad regional.",
+      relato: "Santa Fe, 8 de julio de 1914, la víspera del 9 de Julio. Ese año nació el Centro Estudiantes de Derecho; su primer presidente, Alejandro Grüning Rosas, recibió la bandera en una velada patriótica en el Teatro Municipal. Un dato para detectives: el diario Nueva Época contó esa velada en su edición del 7 de julio, un día antes de la fecha de la placa.",
       extra: "Las otras fechas también son de esta historia: 1910 fue el Centenario, en 1918 estalló la Reforma en Córdoba y en 1919 se promulgó la ley que creó la UNL." },
     { tag: "El símbolo", q: "¿Quién acompaña al medallón de la República, abajo de la placa?", hint: "Es una figura infantil, sentada junto al medallón.",
       opts: ["Un querubín", "Un león", "Un cóndor", "Un soldado"], ok: 0, order: [3,1,0,2],
@@ -529,7 +541,9 @@ body.mode-aula{font-size:21px}
       p: "El 8 de septiembre, los estudiantes de la Universidad de Santa Fe salen a la calle con docentes, obreros y asociaciones para pedir que la universidad sea nacional. Grüning Rosas, presidente de la Federación de Estudiantes, habla en el mitin: «La nacionalización traerá la reforma de lo que sea menester reformar»." },
     { y: "1914", t: "El cofre", img: "cofre", cap: "El cofre. Foto: Museo Histórico UNL.",
       link: "https://museohistoricounl.com.ar/tesoro/cofre-donado-al-centro-de-estudiantes-de-derecho-por-mujeres-santafesinas/",
-      p: "Nace el Centro Estudiantes de Derecho y Grüning Rosas es su primer presidente. El 8 de julio, catorce mujeres le ofrendan esta bandera y este cofre. En octubre, el Centro invita al jurista Rodolfo Rivarola y le propone crear por ley una universidad regional." },
+      p: "Nace el Centro Estudiantes de Derecho y Grüning Rosas es su primer presidente. En julio, en una velada patriótica en el Teatro Municipal, con el gobernador Manuel Menchaca en la sala, la señorita Mercedes Leiva le entrega la bandera que ofrendan catorce mujeres. En octubre, Grüning Rosas le escribe al jurista Rodolfo Rivarola y le propone una universidad apoyada en «un triángulo: Rosario, Paraná y Santa Fe»." },
+    { y: "1915", t: "La idea",
+      p: "La Federación Estudiantil que preside Grüning Rosas pide a legisladores y autoridades una ley para crear la Universidad Nacional del Litoral. Sus cartas ya llevan el nombre de esa universidad que todavía no existe y un lema: «Patria, Ciencia, Trabajo y Libertad». Él la imagina así: «La universidad “laboratorio”, “casa de trabajo” […] es nuestra aspiración»." },
     { y: "1916", t: "El acta", img: "acta", img2: "firma", cap: "Acta I Pro Creación de la UNL y, abajo, la firma de A. Grüning Rosas. Museo Histórico UNL.",
       link: "https://museohistoricounl.com.ar/tesoro/i-acta-pro-creacion-unl/",
       p: "El 27 de junio, 42 personas se reúnen en la Sociedad Cosmopolita, el edificio donde hoy funciona el museo, y forman el comité Pro Universidad Nacional del Litoral, presidido por el exgobernador Manuel Menchaca. Entre los firmantes están los estudiantes Grüning Rosas, Pablo Vrillaud y Horacio Varela." },
@@ -543,7 +557,7 @@ body.mode-aula{font-size:21px}
       p: "En nombre del presidente Hipólito Yrigoyen, el ministro José S. Salinas declara fundada la universidad y entrega el rectorado a José Benjamín Ábalos: «Os entrego, señor rector, la Universidad Nacional del Litoral». La historia que empezó en la calle en 1912 ya tiene casa." }
   ];
 
-  var REVEAL_TXT = "Adentro había una bandera argentina. Las donantes la ofrendaron, inspiradas en el amor a la patria, a estudiantes que pedían una universidad nacional para el Litoral. Para ellas, apoyar esa universidad era servir a la patria.";
+  var REVEAL_TXT = "Adentro había una bandera argentina. Las donantes la ofrendaron, inspiradas en el amor a la patria, a estudiantes que pedían una universidad nacional para el Litoral. La entregó la señorita Mercedes Leiva en una velada patriótica en el Teatro Municipal, y la recibió Alejandro Grüning Rosas. Esa bandera de 1914 ya no está en el museo. Hoy el cofre guarda otra: una bandera de ceremonia con el sol bordado en hilo dorado, que llevaban los deportistas universitarios hacia 1950. ¿Y la llave? Existe, y se exhibe en la Facultad de Ciencias Económicas de la UNL.";
   var FIRST = { txt: "Inspiradas en el amor a la patria, las damas santafecinas ofrendan esta bandera al Centro Estudiantes de Derecho", who: "Catorce donantes · Santa Fe, 8 de julio de 1914 · la primera bandera de este muro" };
 
   // ---------- estado ----------
@@ -722,6 +736,7 @@ body.mode-aula{font-size:21px}
     document.getElementById("quote").hidden = true;
   }
   document.getElementById("openbtn").addEventListener("click", function(){ if (count() === 6){ openCofre(true); announce("El cofre está abierto."); } });
+  var ii = document.getElementById("interiorimg"); if (ii) ii.addEventListener("click", function(){ openZoom(IMG.interior, "El cofre por dentro, hoy: forro de felpa y la bandera de ceremonia de deportistas universitarios (c. 1950). Foto: Tomás Cometti, 2026."); });
   var rb = document.querySelector('[data-say="reveal"]'); if (rb){ if (synth) rb.addEventListener("click", function(){ speak(REVEAL_TXT, rb); }); else rb.hidden = true; }
 
   // ---------- historia ----------
