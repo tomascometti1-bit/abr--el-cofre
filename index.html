@@ -514,11 +514,11 @@ body.mode-aula{font-size:21px}
       relato: "Es una pirámide muy baja: cuatro caras triangulares que se juntan en un punto, en el centro. La de adelante se inclina hacia vos, como un atril, para que leas la placa sin agacharte; la de atrás tiene el escudo nacional tallado. Abajo, la caja es un prisma y todo se apoya en cuatro patas curvas en forma de S." },
     { tag: "El material", q: "¿De qué material es la placa con la dedicatoria?", hint: "Brilla en los relieves y se oscurece en los huecos.",
       opts: ["Bronce", "Madera tallada", "Mármol", "Hierro pintado"], ok: 0, order: [1,2,0,3],
-      img: "r2", cap: "La placa de bronce. Foto: UNL Noticias (2014).",
+      img: "r2", cap: "La placa de bronce. Foto: UNL Noticias (2014).", capq: "La placa con la dedicatoria. Foto: UNL Noticias (2014).",
       relato: "Es bronce fundido: el metal líquido se coló en un molde con las letras en relieve y después se terminó a cincel. La pátina oscura de los huecos y el brillo de los relieves hacen resaltar las letras. Según el museo, el cofre es de roble francés, tallado a mano." },
     { tag: "El adorno", q: "¿Qué planta está tallada en los costados de la tapa?", hint: "Con ella se coronaba a los vencedores.",
       opts: ["Laurel", "Olivo", "Vid", "Rosas"], ok: 0, order: [0,1,2,3],
-      img: "r3", cap: "Corona de laurel tallada en roble. Foto: Museo Histórico UNL.",
+      img: "r3", cap: "Corona de laurel tallada en roble. Foto: Museo Histórico UNL.", capq: "Un costado de la tapa. Foto: Museo Histórico UNL.",
       relato: "Laurel, la planta del triunfo y del honor: hay una corona en cada costado de la tapa y ramas alrededor del escudo, en la cara de atrás. En el frente de la caja cuelga otra guirnalda, pero de campanillas, flores en forma de campana. Buscá también las hojas de acanto en las esquinas y la concha tallada en el faldón." },
     { tag: "Las donantes", q: "¿Cuántas mujeres firman la ofrenda en la placa?", hint: "Contá los nombres que siguen a la dedicatoria.",
       opts: ["14", "7", "21", "3"], ok: 0, order: [1,2,3,0],
@@ -531,7 +531,7 @@ body.mode-aula{font-size:21px}
       extra: "Las otras fechas también son de esta historia: 1910 fue el Centenario, en 1918 estalló la Reforma en Córdoba y en 1919 se promulgó la ley que creó la UNL." },
     { tag: "El símbolo", q: "¿Quién acompaña al medallón de la República, abajo de la placa?", hint: "Es una figura infantil, sentada junto al medallón.",
       opts: ["Un querubín", "Un león", "Un cóndor", "Un soldado"], ok: 0, order: [3,1,0,2],
-      img: "r6", cap: "Medallón de la República y querubín, en bronce. Foto: Museo Histórico UNL.",
+      img: "r6", cap: "Medallón de la República y querubín, en bronce. Foto: Museo Histórico UNL.", capq: "La parte de abajo de la placa. Foto: Museo Histórico UNL.",
       relato: "Un querubín acompaña un medallón con el perfil de una mujer coronada de laurel: la República. En una misma imagen de bronce se juntan la patria, el triunfo y la ofrenda. La dedicatoria lo dice así: «Inspiradas en el amor a la patria»." }
   ];
 
@@ -619,8 +619,9 @@ body.mode-aula{font-size:21px}
     var fb = el("p", { class: "feedback", role: "status", "aria-live": "polite" });
     var helper = el("div", { class: "helper" });
     var photo = el("figure", { class: "photo" }); photo.hidden = true;
-    photo.innerHTML = '<img loading="lazy" alt="' + r.cap.replace(/"/g, "&quot;") + '" src="' + IMG[r.img] + '"><figcaption>' + r.cap + '</figcaption>';
-    photo.querySelector("img").addEventListener("click", function(){ openZoom(IMG[r.img], r.cap); });
+    var capShown = state.keys[idx] ? r.cap : (r.capq || r.cap);
+    photo.innerHTML = '<img loading="lazy" alt="' + capShown.replace(/"/g, "&quot;") + '" src="' + IMG[r.img] + '"><figcaption>' + capShown + '</figcaption>';
+    photo.querySelector("img").addEventListener("click", function(){ openZoom(IMG[r.img], capShown); });
     var helpBtn = el("button", { class: "btn btn-ghost btn-sm", type: "button", "aria-expanded": "false" }, "No estoy en el museo: ver foto");
     helpBtn.addEventListener("click", function(){ photo.hidden = !photo.hidden; helpBtn.setAttribute("aria-expanded", String(!photo.hidden)); helpBtn.textContent = photo.hidden ? "No estoy en el museo: ver foto" : "Ocultar foto"; });
     helper.appendChild(helpBtn);
@@ -630,6 +631,7 @@ body.mode-aula{font-size:21px}
     var sb = speakBtn(r.relato + (r.extra ? " " + r.extra : "")); if (sb){ var h = el("div", { class: "helper" }); h.appendChild(sb); relato.appendChild(h); }
 
     function markDone(animate){
+      if (capShown !== r.cap){ capShown = r.cap; photo.querySelector("figcaption").textContent = r.cap; photo.querySelector("img").alt = r.cap; }
       card.classList.add("done");
       Array.prototype.forEach.call(opts.children, function(b){ b.disabled = true; if (+b.dataset.i === r.ok) b.classList.add("is-right"); });
       fb.textContent = ""; helper.hidden = true; photo.hidden = false; relato.hidden = false;
