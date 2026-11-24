@@ -1,6 +1,6 @@
 # Abrí el cofre
 
-Propuesta museológica interactiva sobre el **cofre que catorce mujeres santafesinas donaron, junto con una bandera argentina, al Centro Estudiantes de Derecho el 8 de julio de 1914**. La pieza se conserva en el Museo Histórico UNL «Marta Samatan» (colección Movimiento Estudiantil Reformista). La recibió Alejandro Grüning Rosas, que en 1912 había organizado el mitin estudiantil por la nacionalización de la universidad santafesina, primer paso hacia la creación de la UNL.
+Propuesta museológica interactiva sobre el **cofre que catorce mujeres santafesinas donaron, junto con una bandera argentina, al Centro Estudiantes de Derecho el 8 de julio de 1914**. La pieza se conserva en el Museo Histórico UNL «Marta Samatan» (Colección Patrimonial Movimiento Estudiantil). La recibió Alejandro Grüning Rosas, que en 1912 había organizado el mitin estudiantil por la nacionalización de la universidad santafesina, primer paso hacia la creación de la UNL.
 
 Trabajo final de la electiva *Patrimonio cultural del Museo Histórico UNL. Conociendo sus colecciones* (Universidad Nacional del Litoral, 2026). Autor: Tomás Cometti.
 
@@ -20,7 +20,7 @@ El recorrido: seis retos de observación entregan seis llaves → el cofre se ab
 
 - `index.html` — la experiencia completa, sin dependencias (las tipografías se cargan de Google Fonts).
 - `img/` — fotografías del cofre y documentos.
-- `imprimibles/` — versión en papel: cédula A5 con QR para la sala, lámina «Conocé el cofre», cartas-llave de doble faz (se doblan y se pegan) y tarjetas «Dejá tu bandera».
+- `imprimibles/` — cédula A5 con QR para colocar junto al cofre en la sala y tarjetas «Dejá tu bandera» para el aula.
 
 ## Créditos
 
